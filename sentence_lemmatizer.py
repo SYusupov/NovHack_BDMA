@@ -27,6 +27,7 @@ class SentenceLemmatizer:
             return None
 
     def lemmatize(self, sentence, tags_to_include=[wordnet.NOUN, wordnet.VERB]):
+        sentence = sentence.upper()
         #tokenize the sentence and find the POS tag for each token
         nltk_tagged = nltk.pos_tag(nltk.word_tokenize(sentence))  
         #tuple of (token, wordnet_tag)
