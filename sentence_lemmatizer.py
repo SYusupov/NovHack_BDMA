@@ -11,7 +11,8 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 
 class SentenceLemmatizer:
-    lemmatizer = WordNetLemmatizer()
+    def __init__(self):
+        self.lemmatizer = WordNetLemmatizer()
 
     def nltk_tag_to_wordnet_tag(self, nltk_tag):
         if nltk_tag.startswith('J'):
@@ -29,10 +30,10 @@ class SentenceLemmatizer:
         #tokenize the sentence and find the POS tag for each token
         nltk_tagged = nltk.pos_tag(nltk.word_tokenize(sentence))  
         #tuple of (token, wordnet_tag)
-        wordnet_tagged = map(lambda x: (x[0], nltk_tag_to_wordnet_tag(x[1])), nltk_tagged)
+        wordnet_tagged = map(lambda x: (x[0], self.nltk_tag_to_wordnet_tag(x[1])), nltk_tagged)
         lemmatized_sentence = []
         for word, tag in wordnet_tagged:
             if tag in tags_to_include:    
                 #else use the tag to lemmatize the token
-                lemmatized_sentence.append(lemmatizer.lemmatize(word, tag))
+                lemmatized_sentence.append(self.lemmatizer.lemmatize(word, tag))
         return " ".join(lemmatized_sentence)
