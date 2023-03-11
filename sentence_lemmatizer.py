@@ -9,11 +9,14 @@ import json
 import nltk
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
+from nltk.stem.porter import PorterStemmer
+from nltk.stem.snowball import SnowballStemmer
 
 class SentenceLemmatizer:
     def __init__(self):
         self.lemmatizer = WordNetLemmatizer()
-
+        self.stemmer = SnowballStemmer("english")
+        
     def nltk_tag_to_wordnet_tag(self, nltk_tag):
         if nltk_tag.startswith('J'):
             return wordnet.ADJ
@@ -27,7 +30,7 @@ class SentenceLemmatizer:
             return None
 
     def lemmatize(self, sentence, tags_to_include=[wordnet.NOUN, wordnet.VERB]):
-        sentence = sentence.upper()
+        sentence = sentence.lower()
         #tokenize the sentence and find the POS tag for each token
         nltk_tagged = nltk.pos_tag(nltk.word_tokenize(sentence))  
         #tuple of (token, wordnet_tag)
@@ -36,5 +39,6 @@ class SentenceLemmatizer:
         for word, tag in wordnet_tagged:
             if tag in tags_to_include:    
                 #else use the tag to lemmatize the token
-                lemmatized_sentence.append(self.lemmatizer.lemmatize(word, tag))
+                word_stem = self.stemmer.stem(word)
+                lemmatized_sentence.append(self.lemmatizer.lemmatize(word_stem, tag))
         return " ".join(lemmatized_sentence)
