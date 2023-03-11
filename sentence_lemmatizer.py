@@ -1,5 +1,15 @@
 # Methods modified from original https://gaurav5430.medium.com/using-nltk-for-lemmatizing-sentences-c1bfff963258
 
+import os
+import pandas as pd
+import mlflow
+import requests
+import json
+
+import nltk
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
+
 class SentenceLemmatizer:
     lemmatizer = WordNetLemmatizer()
 
